@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import Search from './components/search'
+import React, { useEffect, useState } from 'react';
+import Search from './components/Search';
 
 const API_BASE_URL = 'http://www.omdbapi.com/';
 
