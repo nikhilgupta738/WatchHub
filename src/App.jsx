@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Search from './components/Search';
+import Loader from './components/Loader';
 
 const API_BASE_URL = 'https://www.omdbapi.com/';
 
@@ -20,13 +21,12 @@ const App = () => {
 
         try {
             const response = await fetch(`${API_BASE_URL}?s=${searchTerm}&apikey=${API_KEY}`);
-            
+
             if (!response.ok) {
                 throw new Error('Failed to fetch Movies');
             }
             const data = await response.json();
-            console.log(data);
-            
+
             if (data.Response === 'False') {
                 setErrorMessage(data.Error || 'Failed to fetch Movies');
                 setMovies([]);
@@ -46,20 +46,22 @@ const App = () => {
             fetchMovies();
         }
     }, [searchTerm]);
-    
+
     return (
         <main>
             <div className='pattern'>
                 <div className='wrapper'>
                     <header>
-                        <img src="./hero-img.png" alt="" />
+                        <h1 className='text-3xl'>Welcome to <span className='text-gradient'>WatchHub!</span></h1>
+                        <p className='text-white text-center font-extrabold'>Your one stop destination for all your movie needs.</p>
+                        <img src="./hero-img1.webp" alt="" />
                         <h1>BingeWatch <span className='text-gradient'>Movies</span> and Enjoy your Day!!</h1>
                         <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                     </header>
-                    <section>
+                    <section className=''>
                         <h2>All Movies</h2>
                         {isLoading ? (
-                            <p className='text-white'>Loading...</p>
+                            <Loader/>
                         ) : errorMessage ? (
                             <p className='text-red-500'>{errorMessage}</p>
                         ) : (
