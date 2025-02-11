@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Search from './components/Search';
 import Loader from './components/Loader';
+import { useDebounce } from 'react-use';
 
 const API_BASE_URL = 'https://www.omdbapi.com/';
 
@@ -14,6 +15,10 @@ const App = () => {
     const [movies, setMovies] = useState([]);
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
+    useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
 
     const fetchMovies = async () => {
         setIsLoading(true);
@@ -43,9 +48,9 @@ const App = () => {
     }
     useEffect(() => {
         if (searchTerm.trim() !== "") {
-            fetchMovies();
+            fetchMovies(debouncedSearchTerm);
         }
-    }, [searchTerm]);
+    }, [debouncedSearchTerm]);
 
     return (
         <main>
